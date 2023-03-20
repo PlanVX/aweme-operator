@@ -1,0 +1,118 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: awemeapps.sixwaaaay.io
+spec:
+  group: sixwaaaay.io
+  scope: Namespaced
+  names:
+    plural: awemeapps
+    singular: awemeapp
+    kind: AwemeApp
+    shortNames:
+      - aweme
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: AwemeApp is the Schema for the aweme app
+          properties:
+            spec:
+              properties:
+                release:
+                  type: boolean
+                mysql:
+                  type: object
+                  properties:
+                    dsn:
+                      type: string
+                      description: DSN is the mysql data source name
+                  required:
+                    - dsn
+                jwt:
+                  type: object
+                  properties:
+                    secret:
+                      description: Secret is the jwt secret
+                      type: string
+
+                    ttl:
+                      type: integer # in seconds
+
+                    whitelist:
+                      type: array # of strings
+                      items:
+                        type: string
+                  required:
+                    - secret
+                    - ttl
+                api:
+                  type: object
+                  properties:
+                    prefix:
+                      type: string # e.g. /v1
+
+                    address:
+                      type: string # e.g. 0.0.0.0:80
+                  required:
+                    - prefix
+                    - address
+
+                s3: # alternatively, you can use minio
+                  type: object
+                  properties:
+                    accessKey:
+                      type: string
+
+                    secretKey:
+                      type: string
+
+                    bucket:
+                      type: string
+
+                    endpoint:
+                      type: string
+                  required:
+                    - accessKey
+                    - secretKey
+                    - bucket
+                    - endpoint
+
+                redis:
+                  type: object
+                  properties:
+                    address:
+                      type: array  # of strings? e.g. 127.0.0.1:6479,192.168.1.2:6479
+                      items:
+                        type: string
+                    password:
+                      type: string
+
+                    db:
+                      type: integer
+
+                  required:
+                    - address
+                otel:
+                  type: object
+                  properties:
+                    endpoint:
+                      type: string
+
+                    service:
+                      type: string
+
+                    version:
+                      type: string
+
+                    environment:
+                      type: string
+                  required:
+                    - endpoint
+                    - service
+                    - version
+                    - environment
+              type: object
