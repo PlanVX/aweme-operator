@@ -85,7 +85,7 @@ spec:
                   type: object
                   properties:
                     address:
-                      type: array  # of strings? e.g. 127.0.0.1:6479,192.168.1.2:6479
+                      type: array # of strings? e.g. 127.0.0.1:6479,192.168.1.2:6479
                       items:
                         type: string
                     password:
