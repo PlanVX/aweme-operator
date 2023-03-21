@@ -1,14 +1,19 @@
 import kopf
 import kubernetes
 
-from app import gen_app, gen_svc
+from app import gen_app
+from app import gen_svc
 from secret import gen_config
 
 
-@kopf.on.create('awemeapps')
+@kopf.on.create("awemeapps")
 def create_fn(spec: kopf.Spec, name, namespace, logger, **kwargs):
     # create a secret
-    secret = {k: v for k, v in spec.items() if k in ['api', 'jwt', 'mysql', 'redis', 'release', 's3', 'otel']}
+    secret = {
+        k: v
+        for k, v in spec.items()
+        if k in ["api", "jwt", "mysql", "redis", "release", "s3", "otel"]
+    }
 
     api = kubernetes.client.CoreV1Api()
     rf, secret_name = gen_config(secret, name=name)
@@ -34,5 +39,6 @@ def create_fn(spec: kopf.Spec, name, namespace, logger, **kwargs):
     deployment = gen_app(name, secret_name)
     kopf.adopt(deployment)
 
-    resp = api.create_namespaced_deployment(body=deployment, namespace=namespace)
+    resp = api.create_namespaced_deployment(body=deployment,
+                                            namespace=namespace)
     logger.info(f"create a deployment result: {resp}")
