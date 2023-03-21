@@ -5,7 +5,7 @@ apiVersion: v1
 kind: Secret
 type: Opaque
 metadata:
-  name: aweme-app-config-{secret_name}
+  name: {secret_name}
 stringData:
   config.yaml: ""
 """
