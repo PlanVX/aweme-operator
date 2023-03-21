@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aweme-operator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aweme-operator-account
+  namespace: aweme-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: aweme-operator-role-cluster
+rules:
+
+
+  - apiGroups: [ kopf.dev ]
+    resources: [ clusterkopfpeerings ]
+    verbs: [ list, watch, patch, get ]
+
+  - apiGroups: [ zalando.org ]
+    resources: [ clusterkopfpeerings ]
+    verbs: [ list, watch, patch, get ]
+
+  - apiGroups: [ apiextensions.k8s.io ]
+    resources: [ customresourcedefinitions ]
+    verbs: [ list, watch ]
+  - apiGroups: [ "" ]
+    resources: [ namespaces ]
+    verbs: [ list, watch ]
+
+  - apiGroups: [ admissionregistration.k8s.io/v1, admissionregistration.k8s.io/v1beta1 ]
+    resources: [ validatingwebhookconfigurations, mutatingwebhookconfigurations ]
+    verbs: [ create, patch ]
+
+  - apiGroups: [ sixwaaaay.io ]
+    resources: [ awemeapps ]
+    verbs: [ list, watch, patch, get ]
+
+  # Framework: posting the events about the handlers progress/errors.
+  - apiGroups: [ "" ]
+    resources: [ events ]
+    verbs: [ create ]
+
+  - apiGroups: [ "" ]
+    resources: [ pods, services, secrets ]
+    verbs: [ create, patch, get, list, watch ]
+
+  - apiGroups: [ "apps" ]
+    resources: [ deployments ]
+    verbs: [ create, patch, get, list, watch ]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: aweme-operator-rolebinding-cluster
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: aweme-operator-role-cluster
+subjects:
+  - kind: ServiceAccount
+    name: aweme-operator-account
+    namespace: aweme-operator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aweme-operator
+  namespace: aweme-operator
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      application: aweme-operator
+  template:
+    metadata:
+      labels:
+        application: aweme-operator
+    spec:
+      serviceAccountName: aweme-operator-account
+      containers:
+        - name: the-only-one
+          image: planvx/aweme-operator:latest
+          imagePullPolicy: Always
+
