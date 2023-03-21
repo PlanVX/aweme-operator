@@ -8,7 +8,7 @@ from secret import gen_config
 @kopf.on.create('awemeapps')
 def create_fn(spec: kopf.Spec, name, namespace, logger, **kwargs):
     # create a secret
-    secret = {k: v for k, v in spec.items() if k in ['api', 'jwt', 'mysql', 'redis', 'release', 's3']}
+    secret = {k: v for k, v in spec.items() if k in ['api', 'jwt', 'mysql', 'redis', 'release', 's3', 'otel']}
 
     api = kubernetes.client.CoreV1Api()
     rf, secret_name = gen_config(secret, name=name)
