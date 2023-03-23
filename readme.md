@@ -13,13 +13,13 @@
 首先部署 crd 定义：
 
 ```
-kubectl apply -f https://github.com/PlanVX/aweme-operator/raw/master/deploy/awemeapps.yaml
+kubectl apply -f https://raw.fastgit.org/PlanVX/aweme-operator/master/deploy/awemeapps.yaml
 ```
 
 然后部署 aweme operator：
 
 ```
-kubectl apply -f https://github.com/PlanVX/aweme-operator/raw/master/deploy/operator.yaml
+kubectl apply -f https://raw.fastgit.org/PlanVX/aweme-operator/master/deploy/operator.yaml
 ```
 
 验证 operator 是否在 aweme-operator 命名空间中运行：
@@ -83,6 +83,6 @@ kubectl get aweme
 对于 crd 和 operator，你可以使用 kubectl delete -f 命令来清除：
 
 ```
-kubectl delete -f https://github.com/PlanVX/aweme-operator/raw/master/deploy/operator.yaml
-kubectl delete -f https://github.com/PlanVX/aweme-operator/raw/master/deploy/awemeapps.yaml
+kubectl delete -f https://raw.fastgit.org/PlanVX/aweme-operator/master/deploy/operator.yaml
+kubectl delete -f https://raw.fastgit.org/PlanVX/aweme-operator/master/deploy/awemeapps.yaml
 ```
