@@ -1,7 +1,8 @@
 import kopf
 import kubernetes
 
-from app import gen_app, gen_svc
+from app import gen_app
+from app import gen_svc
 from secret import gen_config
 
 
