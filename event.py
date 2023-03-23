@@ -39,5 +39,6 @@ def create_fn(spec: kopf.Spec, name, namespace, logger, **kwargs):
     deployment = gen_app(name, secret_name, version=version)
     kopf.adopt(deployment)
 
-    resp = api.create_namespaced_deployment(body=deployment, namespace=namespace)
+    resp = api.create_namespaced_deployment(body=deployment,
+                                            namespace=namespace)
     logger.info(f"create a deployment result: {resp}")
