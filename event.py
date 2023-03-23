@@ -35,8 +35,8 @@ def create_fn(spec: kopf.Spec, name, namespace, logger, **kwargs):
 
     # create a deployment
     api = kubernetes.client.AppsV1Api()
-
-    deployment = gen_app(name, secret_name)
+    version = spec.get("otel", {}).get("version", "latest")
+    deployment = gen_app(name, secret_name, version=version)
     kopf.adopt(deployment)
 
     resp = api.create_namespaced_deployment(body=deployment,

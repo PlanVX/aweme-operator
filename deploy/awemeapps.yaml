@@ -116,3 +116,11 @@ spec:
                     - version
                     - environment
               type: object
+              required:
+                - release
+                - mysql
+                - jwt
+                - api
+                - s3
+                - redis
+                - otel
