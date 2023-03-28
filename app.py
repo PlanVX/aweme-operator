@@ -1,3 +1,13 @@
+#  Copyright (c) 2023.  The PlanVX Authors
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#      http://www.apache.org/licenses/LICENSE-2.
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 import yaml
 
 appTemplate = """
@@ -36,7 +46,7 @@ spec:
             secretName: {config_secret}
             items:
               - key: config.yaml
-                path: config.yml 
+                path: config.yml
 """
 
 svcTemplate = """
@@ -55,7 +65,10 @@ spec:
 """
 
 
-def gen_app(name: str, config_secret: str, port: int = 80, version: str = 'latest') -> str:
+def gen_app(name: str,
+            config_secret: str,
+            port: int = 80,
+            version: str = "latest") -> str:
     """
     generate a deployment for aweme app crd
     :param name:  aweme app name
@@ -64,7 +77,11 @@ def gen_app(name: str, config_secret: str, port: int = 80, version: str = 'lates
     :param version:  image version
     :return: an object to describe the deployment
     """
-    return yaml.safe_load(appTemplate.format(port=port, version=version, name=name, config_secret=config_secret))
+    return yaml.safe_load(
+        appTemplate.format(port=port,
+                           version=version,
+                           name=name,
+                           config_secret=config_secret))
 
 
 def gen_svc(name: str, port: str = 80, target_port: int = 8081) -> str:
@@ -75,4 +92,5 @@ def gen_svc(name: str, port: str = 80, target_port: int = 8081) -> str:
     :param target_port: port of service
     :return: an object to describe the service
     """
-    return yaml.safe_load(svcTemplate.format(port=port, target_port=target_port, name=name))
+    return yaml.safe_load(
+        svcTemplate.format(port=port, target_port=target_port, name=name))
