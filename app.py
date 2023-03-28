@@ -65,9 +65,10 @@ spec:
 """
 
 
-def gen_app(
-    name: str, config_secret: str, port: int = 80, version: str = "latest"
-) -> str:
+def gen_app(name: str,
+            config_secret: str,
+            port: int = 80,
+            version: str = "latest") -> str:
     """
     generate a deployment for aweme app crd
     :param name:  aweme app name
@@ -77,10 +78,10 @@ def gen_app(
     :return: an object to describe the deployment
     """
     return yaml.safe_load(
-        appTemplate.format(
-            port=port, version=version, name=name, config_secret=config_secret
-        )
-    )
+        appTemplate.format(port=port,
+                           version=version,
+                           name=name,
+                           config_secret=config_secret))
 
 
 def gen_svc(name: str, port: str = 80, target_port: int = 8081) -> str:
@@ -92,5 +93,4 @@ def gen_svc(name: str, port: str = 80, target_port: int = 8081) -> str:
     :return: an object to describe the service
     """
     return yaml.safe_load(
-        svcTemplate.format(port=port, target_port=target_port, name=name)
-    )
+        svcTemplate.format(port=port, target_port=target_port, name=name))
