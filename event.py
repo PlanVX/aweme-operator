@@ -8,11 +8,11 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
 import kopf
 import kubernetes
 
-from app import gen_app, gen_svc
+from app import gen_app
+from app import gen_svc
 from secret import gen_config
 
 
