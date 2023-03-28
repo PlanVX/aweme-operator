@@ -46,7 +46,7 @@ spec:
             secretName: {config_secret}
             items:
               - key: config.yaml
-                path: config.yml 
+                path: config.yml
 """
 
 svcTemplate = """
