@@ -1,4 +1,4 @@
-FROM python:3.11-alpine
+FROM python:3.12-alpine
 COPY . /src
 RUN pip install kopf
 RUN pip install kubernetes
